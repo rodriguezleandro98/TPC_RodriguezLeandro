@@ -1,0 +1,220 @@
+USE [RODRIGUEZ_DB]
+GO
+
+/****** Object:  Table [dbo].[Adm]    Script Date: 14/6/2020 18:55:16 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Adm](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[NombreU] [varchar](50) NOT NULL,
+	[Contraseña] [varchar](50) NOT NULL,
+	[Nombres] [varchar](50) NOT NULL,
+	[Apellidos] [varchar](50) NOT NULL,
+	[Estado] [bit] NOT NULL,
+	[IDTipodeusuario] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Adm]  WITH CHECK ADD FOREIGN KEY([IDTipodeusuario])
+REFERENCES [dbo].[TipoUsuario] ([ID])
+GO
+
+USE [RODRIGUEZ_DB]
+GO
+
+/****** Object:  Table [dbo].[Cliente]    Script Date: 14/6/2020 18:55:30 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Cliente](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[NombreU] [varchar](50) NOT NULL,
+	[IDTipodeusuario] [int] NOT NULL,
+	[Nombres] [varchar](50) NOT NULL,
+	[Apellidos] [varchar](50) NOT NULL,
+	[Estado] [bit] NOT NULL,
+	[Direccion] [varchar](100) NOT NULL,
+	[Telefono] [varchar](20) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Cliente]  WITH CHECK ADD FOREIGN KEY([IDTipodeusuario])
+REFERENCES [dbo].[TipoUsuario] ([ID])
+GO
+
+USE [RODRIGUEZ_DB]
+GO
+
+/****** Object:  Table [dbo].[EstadosdeS]    Script Date: 14/6/2020 18:55:53 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[EstadosdeS](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [varchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+USE [RODRIGUEZ_DB]
+GO
+
+/****** Object:  Table [dbo].[Operador]    Script Date: 14/6/2020 18:56:01 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Operador](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[NombreU] [varchar](50) NOT NULL,
+	[Contraseña] [varchar](50) NOT NULL,
+	[Nombres] [varchar](50) NOT NULL,
+	[Apellidos] [varchar](50) NOT NULL,
+	[Estado] [bit] NOT NULL,
+	[IDTipodeusuario] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Operador]  WITH CHECK ADD FOREIGN KEY([IDTipodeusuario])
+REFERENCES [dbo].[TipoUsuario] ([ID])
+GO
+
+USE [RODRIGUEZ_DB]
+GO
+
+/****** Object:  Table [dbo].[Sintomas]    Script Date: 14/6/2020 18:56:09 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Sintomas](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [varchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+USE [RODRIGUEZ_DB]
+GO
+
+USE [RODRIGUEZ_DB]
+GO
+
+/****** Object:  Table [dbo].[Solicitud]    Script Date: 14/6/2020 20:27:48 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Solicitud](
+	[ID] [bigint] IDENTITY(1,1) NOT NULL,
+	[IDCliente] [int] NOT NULL,
+	[IDOperador] [int] NOT NULL,
+	[IDSintoma] [int] NOT NULL,
+	[Titulo] [varchar](100) NOT NULL,
+	[Descripcion] [varchar](1000) NOT NULL,
+	[IDEstado] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Solicitud]  WITH CHECK ADD FOREIGN KEY([IDCliente])
+REFERENCES [dbo].[Cliente] ([ID])
+GO
+
+ALTER TABLE [dbo].[Solicitud]  WITH CHECK ADD FOREIGN KEY([IDEstado])
+REFERENCES [dbo].[EstadosdeS] ([ID])
+GO
+
+ALTER TABLE [dbo].[Solicitud]  WITH CHECK ADD FOREIGN KEY([IDOperador])
+REFERENCES [dbo].[Operador] ([ID])
+GO
+
+ALTER TABLE [dbo].[Solicitud]  WITH CHECK ADD FOREIGN KEY([IDSintoma])
+REFERENCES [dbo].[Sintomas] ([ID])
+GO
+
+
+
+/****** Object:  Table [dbo].[Supervisor]    Script Date: 14/6/2020 18:56:25 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Supervisor](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[NombreU] [varchar](50) NOT NULL,
+	[Contraseña] [varchar](50) NOT NULL,
+	[Nombres] [varchar](50) NOT NULL,
+	[Apellidos] [varchar](50) NOT NULL,
+	[Estado] [bit] NOT NULL,
+	[IDTipodeusuario] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Supervisor]  WITH CHECK ADD FOREIGN KEY([IDTipodeusuario])
+REFERENCES [dbo].[TipoUsuario] ([ID])
+GO
+
+USE [RODRIGUEZ_DB]
+GO
+
+/****** Object:  Table [dbo].[TipoUsuario]    Script Date: 14/6/2020 18:56:33 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TipoUsuario](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [varchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
